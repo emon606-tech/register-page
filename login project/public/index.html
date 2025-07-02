@@ -1,103 +1,151 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Register</title>
+  <title>Register Form Animation | Custom</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-    /* Reset & base */
     * {
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
-    }
-    body, html {
-      margin: 0; padding: 0;
-      height: 100%;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    }
+
+    body {
       display: flex;
       justify-content: center;
       align-items: center;
-      color: #eee;
-      user-select: none;
+      min-height: 100vh;
+      background: #000;
+      overflow: hidden;
+      color: #fff;
     }
 
-    /* Container with glassmorphism */
-    .container {
-      background: rgba(255 255 255 / 0.05);
-      border-radius: 15px;
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255 255 255 / 0.18);
-      padding: 40px 35px;
-      width: 380px;
-      max-width: 90vw;
-      animation: fadeIn 1s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    /* Title */
-    h2 {
-      font-weight: 600;
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 2.2rem;
-      letter-spacing: 1.2px;
-      color: #0ff9ff;
-      text-shadow: 0 0 8px #0ff9ff88;
-      user-select: text;
-    }
-
-    /* Floating label inputs */
-    .form-group {
-      position: relative;
-      margin-bottom: 25px;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px 14px 14px 14px;
-      border-radius: 8px;
-      border: 2px solid #444;
-      background: rgba(255 255 255 / 0.05);
-      color: #eee;
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.3s ease;
-    }
-
-    input:focus {
-      border-color: #0ff9ff;
-      box-shadow: 0 0 8px #0ff9ff88;
-    }
-
-    label {
+    .login-light {
       position: absolute;
-      left: 14px;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 500px;
+      height: 10px;
+      background: #00f7ff;
+      border-radius: 20px;
+      z-index: 0;
+    }
+
+    .login-box {
+      position: relative;
+      width: 400px;
+      min-height: 520px;
+      background: #191919;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 30px 50px;
+      box-shadow: 0 0 20px #00f7ff66;
+      z-index: 1;
+    }
+
+    h2 {
+      font-size: 2.2em;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 35px;
+      transition: 0.5s ease;
+    }
+
+    .input-check:checked ~ h2 {
+      color: #00f7ff;
+      text-shadow: 0 0 15px #00f7ff, 0 0 30px #00f7ff;
+    }
+
+    form {
+      width: 100%;
+    }
+
+    .input-box {
+      position: relative;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+
+    .input-box .input-line {
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2.5px;
+      background: #fff;
+      transition: 0.5s ease;
+    }
+
+    .input-check:checked ~ .input-box .input-line {
+      background: #00f7ff;
+      box-shadow: 0 0 10px #00f7ff;
+    }
+
+    .input-box label {
+      position: absolute;
       top: 50%;
-      color: #aaa;
-      pointer-events: none;
+      left: 5px;
       transform: translateY(-50%);
-      transition: 0.3s ease all;
-      font-size: 1rem;
-      user-select: none;
+      font-size: 1em;
+      color: #fff;
+      pointer-events: none;
+      transition: 0.5s ease;
     }
 
-    input:focus + label,
-    input:not(:placeholder-shown) + label {
-      top: 4px;
-      font-size: 0.75rem;
-      color: #0ff9ff;
+    .input-box input:focus ~ label,
+    .input-box input:valid ~ label {
+      top: -10px;
+      font-size: 0.75em;
+      color: #00f7ff;
       user-select: text;
+      text-shadow: 0 0 10px #00f7ff;
     }
 
-    /* Password strength bar */
+    .input-check:checked ~ .input-box label {
+      color: #00f7ff;
+      text-shadow: 0 0 10px #00f7ff;
+    }
+
+    .input-box input {
+      width: 100%;
+      height: 45px;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 1em;
+      color: #fff;
+      padding: 0 35px 0 5px;
+      transition: 0.5s ease;
+    }
+
+    .input-check:checked ~ .input-box input {
+      color: #00f7ff;
+      text-shadow: 0 0 5px #00f7ff;
+    }
+
+    .input-box .icon {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #fff;
+      font-size: 1.2em;
+      transition: 0.5s ease;
+    }
+
+    .input-check:checked ~ .input-box .icon {
+      color: #00f7ff;
+      filter: drop-shadow(0 0 5px #00f7ff);
+    }
+
     .strength-bar {
       width: 100%;
       height: 10px;
@@ -107,6 +155,7 @@
       margin-top: 6px;
       box-shadow: inset 0 0 5px #000;
     }
+
     .strength-bar > div {
       height: 100%;
       width: 0%;
@@ -115,35 +164,37 @@
       transition: width 0.3s ease, background-color 0.3s ease;
     }
 
-    /* Button */
     button {
       width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, #00fff7, #00c2f7);
+      height: 45px;
+      background: #fff;
       border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: #111;
+      outline: none;
+      border-radius: 40px;
       cursor: pointer;
-      box-shadow: 0 4px 15px #00c2f7aa;
-      user-select: none;
+      font-size: 1.1em;
+      color: #191919;
+      font-weight: 600;
+      transition: 0.5s ease;
       position: relative;
       overflow: hidden;
-      transition: background 0.3s ease;
-    }
-    button:hover:not(:disabled) {
-      background: linear-gradient(135deg, #00c2f7, #00fff7);
-      box-shadow: 0 6px 20px #00fff7cc;
-    }
-    button:disabled {
-      cursor: not-allowed;
-      background: #0a1924;
-      box-shadow: none;
-      color: #555;
+      user-select: none;
+      box-shadow: 0 0 10px #00f7ff66;
     }
 
-    /* Loading spinner */
+    button:hover:not(:disabled) {
+      background: #00f7ff;
+      color: #000;
+      box-shadow: 0 0 20px #00f7ffbb;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      background: #222;
+      color: #555;
+      box-shadow: none;
+    }
+
     .loading-spinner {
       border: 3px solid rgba(255, 255, 255, 0.3);
       border-top: 3px solid #00c2f7;
@@ -157,18 +208,25 @@
       transform: translateY(-50%);
       display: none;
     }
+
     button.loading .loading-spinner {
       display: block;
     }
+
     button.loading span {
       margin-left: 30px;
     }
+
     @keyframes spin {
-      0% {transform: rotate(0deg);}
-      100% {transform: rotate(360deg);}
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
-    /* Messages */
     #errorMsg {
       color: #ff6b6b;
       text-align: center;
@@ -177,8 +235,9 @@
       font-weight: 600;
       user-select: text;
     }
+
     #successMsg {
-      color: #00fff7;
+      color: #00f7ff;
       text-align: center;
       margin-top: 12px;
       min-height: 24px;
@@ -186,45 +245,138 @@
       user-select: text;
     }
 
-    /* Responsive */
-    @media (max-width: 400px) {
-      .container {
-        width: 90vw;
-        padding: 30px 20px;
-      }
+    /* Toggle container for fun */
+    .toggle {
+      position: absolute;
+      top: 20px;
+      right: -70px;
+      width: 60px;
+      height: 120px;
+      background: #191919;
+      border-radius: 10px;
+      z-index: 5;
+    }
+
+    .toggle::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 80%;
+      background: #000;
+    }
+
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 45px;
+      height: 45px;
+      background: #333;
+      border: 2px solid #191919;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      transition: 0.5s ease;
+    }
+
+    .input-check:checked ~ .toggle::after {
+      top: 65px;
+    }
+
+    .input-check {
+      position: absolute;
+      right: -70px;
+      z-index: 10;
+      opacity: 0;
+    }
+
+    .toggle .text {
+      position: absolute;
+      top: 17px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-size: 1em;
+      z-index: 1;
+      text-transform: uppercase;
+      pointer-events: none;
+      transition: 0.5s ease;
+      user-select: none;
+    }
+
+    .toggle .text.off {
+      opacity: 1;
+    }
+
+    .input-check:checked ~ .toggle .text.off {
+      top: 76px;
+      opacity: 0;
+    }
+
+    .toggle .text.on {
+      opacity: 0;
+    }
+
+    .input-check:checked ~ .toggle .text.on {
+      top: 76px;
+      opacity: 1;
+      color: #00f7ff;
+      text-shadow: 0 0 15px #00f7ff, 0 0 30px #00f7ff, 0 0 45px #00f7ff,
+        0 0 60px #00f7ff;
     }
   </style>
 </head>
 <body>
-  <div class="container" role="main" aria-label="Registration form">
+
+  <div class="login-light"></div>
+  <div class="login-box">
+    <input type="checkbox" class="input-check" id="input-check" />
+    <label for="input-check" class="toggle">
+      <span class="text off">off</span>
+      <span class="text on">on</span>
+    </label>
+
     <h2>Register</h2>
-
     <form id="registerForm" autocomplete="off" spellcheck="false" novalidate>
-      <div class="form-group">
-        <input type="email" id="email" placeholder=" " required />
+      <div class="input-box">
+        <span class="icon" aria-hidden="true">📧</span>
+        <input type="email" id="email" required />
         <label for="email">Enter your valid email</label>
+        <div class="input-line"></div>
       </div>
 
-      <div class="form-group">
-        <input type="text" id="username" placeholder=" " required />
+      <div class="input-box">
+        <span class="icon" aria-hidden="true">👤</span>
+        <input type="text" id="username" required />
         <label for="username">Enter your username (First letter uppercase)</label>
+        <div class="input-line"></div>
       </div>
 
-      <div class="form-group">
-        <input type="password" id="password" placeholder=" " required />
+      <div class="input-box">
+        <span class="icon" aria-hidden="true">🔒</span>
+        <input type="password" id="password" required />
         <label for="password">Enter your password (min 6 chars)</label>
+        <div class="input-line"></div>
         <div class="strength-bar" aria-label="password strength">
           <div id="strengthFill"></div>
         </div>
       </div>
 
-      <div class="form-group">
-        <input type="password" id="confirmPassword" placeholder=" " required />
+      <div class="input-box">
+        <span class="icon" aria-hidden="true">🔒</span>
+        <input type="password" id="confirmPassword" required />
         <label for="confirmPassword">Confirm your password</label>
+        <div class="input-line"></div>
       </div>
 
       <button type="submit" aria-live="polite" aria-busy="false">
-        <div class="loading-spinner" aria-hidden="true"></div><span>Register</span>
+        <div class="loading-spinner" aria-hidden="true"></div>
+        <span>Register</span>
       </button>
 
       <p id="errorMsg" role="alert" aria-live="assertive"></p>
@@ -232,126 +384,127 @@
     </form>
   </div>
 
-<script>
-  const form = document.getElementById('registerForm');
-  const errorMsg = document.getElementById('errorMsg');
-  const successMsg = document.getElementById('successMsg');
-  const passwordInput = document.getElementById('password');
-  const strengthFill = document.getElementById('strengthFill');
-  const button = form.querySelector('button');
+  <script>
+    const form = document.getElementById('registerForm');
+    const errorMsg = document.getElementById('errorMsg');
+    const successMsg = document.getElementById('successMsg');
+    const passwordInput = document.getElementById('password');
+    const strengthFill = document.getElementById('strengthFill');
+    const button = form.querySelector('button');
 
-  // Password strength calculation (0-4)
-  function calcStrength(pass) {
-    let strength = 0;
-    if (pass.length >= 6) strength++;
-    if (/[A-Z]/.test(pass)) strength++;
-    if (/[0-9]/.test(pass)) strength++;
-    if (/[^A-Za-z0-9]/.test(pass)) strength++;
-    return strength;
-  }
-
-  function updateStrengthBar() {
-    const pass = passwordInput.value;
-    const strength = calcStrength(pass);
-    const percent = (strength / 4) * 100;
-    strengthFill.style.width = percent + '%';
-
-    if (strength <= 1) strengthFill.style.backgroundColor = '#ff4d4d'; // red
-    else if (strength === 2) strengthFill.style.backgroundColor = '#ffa500'; // orange
-    else if (strength === 3) strengthFill.style.backgroundColor = '#9acd32'; // yellowgreen
-    else strengthFill.style.backgroundColor = '#00fff7'; // cyan
-  }
-
-  passwordInput.addEventListener('input', () => {
-    updateStrengthBar();
-    clearMessages();
-  });
-
-  function clearMessages() {
-    errorMsg.textContent = '';
-    successMsg.textContent = '';
-  }
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    clearMessages();
-
-    button.disabled = true;
-    button.classList.add('loading');
-    button.setAttribute('aria-busy', 'true');
-
-    const email = document.getElementById('email').value.trim();
-    const user = document.getElementById('username').value.trim();
-    const pass = passwordInput.value;
-    const confirmPass = document.getElementById('confirmPassword').value;
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      showError('Invalid email format.');
-      finishLoading();
-      return;
+    function calcStrength(pass) {
+      let strength = 0;
+      if (pass.length >= 6) strength++;
+      if (/[A-Z]/.test(pass)) strength++;
+      if (/[0-9]/.test(pass)) strength++;
+      if (/[^A-Za-z0-9]/.test(pass)) strength++;
+      return strength;
     }
 
-    if (!/^[A-Z][a-zA-Z0-9]*$/.test(user)) {
-      showError('Username must start with uppercase letter and contain no . , / characters.');
-      finishLoading();
-      return;
-    }
-    if (/[.,\/]/.test(user)) {
-      showError('Username cannot contain ".", "," or "/".');
-      finishLoading();
-      return;
-    }
+    function updateStrengthBar() {
+      const pass = passwordInput.value;
+      const strength = calcStrength(pass);
+      const percent = (strength / 4) * 100;
+      strengthFill.style.width = percent + '%';
 
-    if (pass.length < 6) {
-      showError('Password must be at least 6 characters.');
-      finishLoading();
-      return;
+      if (strength <= 1) strengthFill.style.backgroundColor = '#ff4d4d'; // red
+      else if (strength === 2) strengthFill.style.backgroundColor = '#ffa500'; // orange
+      else if (strength === 3) strengthFill.style.backgroundColor = '#9acd32'; // yellowgreen
+      else strengthFill.style.backgroundColor = '#00f7ff'; // cyan
     }
 
-    if (pass !== confirmPass) {
-      showError('Passwords do not match.');
-      finishLoading();
-      return;
+    passwordInput.addEventListener('input', () => {
+      updateStrengthBar();
+      clearMessages();
+    });
+
+    function clearMessages() {
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
     }
 
-    if (calcStrength(pass) < 2) {
-      showError('Password is too weak.');
-      finishLoading();
-      return;
-    }
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearMessages();
 
-    try {
-      const res = await fetch('/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, username: user, password: pass }),
-      });
+      button.disabled = true;
+      button.classList.add('loading');
+      button.setAttribute('aria-busy', 'true');
 
-      if (res.ok) {
-        successMsg.textContent = 'User registered successfully!';
-        form.reset();
-        strengthFill.style.width = '0%';
-      } else {
-        const msg = await res.text();
-        showError(msg || 'Registration failed.');
+      const email = document.getElementById('email').value.trim();
+      const user = document.getElementById('username').value.trim();
+      const pass = passwordInput.value;
+      const confirmPass = document.getElementById('confirmPassword').value;
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showError('Invalid email format.');
+        finishLoading();
+        return;
       }
-    } catch (err) {
-      showError('Server error. Please try again later.');
+
+      if (!/^[A-Z][a-zA-Z0-9]*$/.test(user)) {
+        showError(
+          'Username must start with uppercase letter and contain no . , / characters.'
+        );
+        finishLoading();
+        return;
+      }
+      if (/[.,\/]/.test(user)) {
+        showError('Username cannot contain ".", "," or "/".');
+        finishLoading();
+        return;
+      }
+
+      if (pass.length < 6) {
+        showError('Password must be at least 6 characters.');
+        finishLoading();
+        return;
+      }
+
+      if (pass !== confirmPass) {
+        showError('Passwords do not match.');
+        finishLoading();
+        return;
+      }
+
+      if (calcStrength(pass) < 2) {
+        showError('Password is too weak.');
+        finishLoading();
+        return;
+      }
+
+      try {
+        const res = await fetch('/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, username: user, password: pass }),
+        });
+
+        if (res.ok) {
+          successMsg.textContent = 'User registered successfully!';
+          form.reset();
+          strengthFill.style.width = '0%';
+        } else {
+          const msg = await res.text();
+          showError(msg || 'Registration failed.');
+        }
+      } catch (err) {
+        showError('Server error. Please try again later.');
+      }
+
+      finishLoading();
+    });
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      successMsg.textContent = '';
     }
-
-    finishLoading();
-  });
-
-  function showError(msg) {
-    errorMsg.textContent = msg;
-    successMsg.textContent = '';
-  }
-  function finishLoading() {
-    button.disabled = false;
-    button.classList.remove('loading');
-    button.setAttribute('aria-busy', 'false');
-  }
-</script>
+    function finishLoading() {
+      button.disabled = false;
+      button.classList.remove('loading');
+      button.setAttribute('aria-busy', 'false');
+    }
+  </script>
 </body>
 </html>
