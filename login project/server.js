@@ -2,23 +2,21 @@ const express = require('express');
 const path = require('path');
 const atob = require('atob');
 const btoa = require('btoa');
-
-// ✅ Safe Node-fetch import
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const app = express();
 app.use(express.json());
 
-// ✅ Serve static frontend files (like index.html)
+// Serve static frontend files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// === GitHub Setup ===
+// GitHub Setup
 const GITHUB_USERNAME = 'emon606-tech';
 const REPO = 'usr';
 const FILE_PATH = 'user.txt';
 const API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO}/contents/${FILE_PATH}`;
 
-// ✅ HEX-encoded GitHub token
+// HEX-encoded GitHub token
 const HEX_TOKEN = "6768705f4c48706773495032473773627650315237316f7671347333393754525466317837654c5a";
 
 function hexToString(hex) {
@@ -26,7 +24,7 @@ function hexToString(hex) {
 }
 const TOKEN = hexToString(HEX_TOKEN);
 
-// === Register API ===
+// Register Route
 app.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -35,7 +33,6 @@ app.post('/register', async (req, res) => {
   }
 
   try {
-    // 🔄 Read existing file
     const getRes = await fetch(API_URL, {
       headers: {
         Authorization: `token ${TOKEN}`,
@@ -53,16 +50,14 @@ app.post('/register', async (req, res) => {
       sha = json.sha;
     }
 
-    // 🔎 Check for duplicates
     const lines = content.split('\n').filter(Boolean);
     for (const line of lines) {
-      const [existingUser, existingEmail] = line.split(',');
+      const [existingUser, existingEmail] = line.split(' ');
       if (existingUser === username) return res.status(409).send("Username already exists.");
       if (existingEmail === email) return res.status(409).send("Email already exists.");
     }
 
-    // ➕ Append new user
-    const newLine = `${username},${email}\n`;
+    const newLine = `${username} ${email} ${password}\n`;
     const updatedContent = btoa(content + newLine);
 
     const updateRes = await fetch(API_URL, {
@@ -81,8 +76,8 @@ app.post('/register', async (req, res) => {
     if (updateRes.ok) {
       res.send("User registered!");
     } else {
-      const errText = await updateRes.text();
-      console.error("GitHub Write Error:", errText);
+      const errorText = await updateRes.text();
+      console.error("GitHub Write Error:", errorText);
       res.status(500).send("Failed to write to GitHub.");
     }
 
@@ -92,6 +87,6 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// ✅ Start server
+// Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
