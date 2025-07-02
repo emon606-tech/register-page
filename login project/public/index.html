@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Register Form Animation | Custom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register | Codehal Style</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
     * {
       margin: 0;
       padding: 0;
@@ -20,457 +19,170 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: #000;
-      overflow: hidden;
-      color: #fff;
+      background: url('https://images.unsplash.com/photo-1549924231-f129b911e442') no-repeat;
+      background-size: cover;
+      background-position: center;
     }
 
-    .login-light {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 500px;
-      height: 10px;
-      background: #00f7ff;
-      border-radius: 20px;
-      z-index: 0;
-    }
-
-    .login-box {
+    .form-box {
       position: relative;
       width: 400px;
-      min-height: 520px;
-      background: #191919;
-      border-radius: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 30px 50px;
-      box-shadow: 0 0 20px #00f7ff66;
-      z-index: 1;
-    }
-
-    h2 {
-      font-size: 2.2em;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 10px;
       color: #fff;
+      box-shadow: 0 0 15px #00f7ff66;
+    }
+
+    .form-box h2 {
       text-align: center;
-      margin-bottom: 35px;
-      transition: 0.5s ease;
-    }
-
-    .input-check:checked ~ h2 {
-      color: #00f7ff;
-      text-shadow: 0 0 15px #00f7ff, 0 0 30px #00f7ff;
-    }
-
-    form {
-      width: 100%;
+      margin-bottom: 25px;
     }
 
     .input-box {
       position: relative;
-      width: 100%;
-      margin-bottom: 30px;
-    }
-
-    .input-box .input-line {
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 100%;
-      height: 2.5px;
-      background: #fff;
-      transition: 0.5s ease;
-    }
-
-    .input-check:checked ~ .input-box .input-line {
-      background: #00f7ff;
-      box-shadow: 0 0 10px #00f7ff;
-    }
-
-    .input-box label {
-      position: absolute;
-      top: 50%;
-      left: 5px;
-      transform: translateY(-50%);
-      font-size: 1em;
-      color: #fff;
-      pointer-events: none;
-      transition: 0.5s ease;
-    }
-
-    .input-box input:focus ~ label,
-    .input-box input:valid ~ label {
-      top: -10px;
-      font-size: 0.75em;
-      color: #00f7ff;
-      user-select: text;
-      text-shadow: 0 0 10px #00f7ff;
-    }
-
-    .input-check:checked ~ .input-box label {
-      color: #00f7ff;
-      text-shadow: 0 0 10px #00f7ff;
+      margin-bottom: 20px;
     }
 
     .input-box input {
       width: 100%;
-      height: 45px;
+      padding: 10px;
       background: transparent;
       border: none;
-      outline: none;
+      border-bottom: 2px solid #ccc;
+      color: #fff;
       font-size: 1em;
-      color: #fff;
-      padding: 0 35px 0 5px;
-      transition: 0.5s ease;
+      outline: none;
     }
 
-    .input-check:checked ~ .input-box input {
-      color: #00f7ff;
-      text-shadow: 0 0 5px #00f7ff;
-    }
-
-    .input-box .icon {
+    .input-box label {
       position: absolute;
-      right: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #fff;
-      font-size: 1.2em;
-      transition: 0.5s ease;
+      left: 0;
+      top: 10px;
+      pointer-events: none;
+      transition: 0.3s;
+      color: #aaa;
     }
 
-    .input-check:checked ~ .input-box .icon {
+    .input-box input:focus ~ label,
+    .input-box input:valid ~ label {
+      top: -12px;
+      font-size: 0.8em;
       color: #00f7ff;
-      filter: drop-shadow(0 0 5px #00f7ff);
     }
 
     .strength-bar {
+      height: 8px;
       width: 100%;
-      height: 10px;
-      background: #222;
-      border-radius: 6px;
+      background: #333;
+      border-radius: 4px;
       overflow: hidden;
       margin-top: 6px;
-      box-shadow: inset 0 0 5px #000;
     }
 
-    .strength-bar > div {
+    .strength-bar div {
       height: 100%;
       width: 0%;
       background: red;
-      border-radius: 6px;
-      transition: width 0.3s ease, background-color 0.3s ease;
+      transition: 0.3s ease;
     }
 
     button {
       width: 100%;
-      height: 45px;
-      background: #fff;
-      border: none;
-      outline: none;
-      border-radius: 40px;
-      cursor: pointer;
-      font-size: 1.1em;
-      color: #191919;
-      font-weight: 600;
-      transition: 0.5s ease;
-      position: relative;
-      overflow: hidden;
-      user-select: none;
-      box-shadow: 0 0 10px #00f7ff66;
-    }
-
-    button:hover:not(:disabled) {
+      padding: 10px;
       background: #00f7ff;
       color: #000;
-      box-shadow: 0 0 20px #00f7ffbb;
-    }
-
-    button:disabled {
-      cursor: not-allowed;
-      background: #222;
-      color: #555;
-      box-shadow: none;
-    }
-
-    .loading-spinner {
-      border: 3px solid rgba(255, 255, 255, 0.3);
-      border-top: 3px solid #00c2f7;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      animation: spin 1s linear infinite;
-      position: absolute;
-      top: 50%;
-      left: 18px;
-      transform: translateY(-50%);
-      display: none;
-    }
-
-    button.loading .loading-spinner {
-      display: block;
-    }
-
-    button.loading span {
-      margin-left: 30px;
-    }
-
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    #errorMsg {
-      color: #ff6b6b;
-      text-align: center;
-      margin-top: 12px;
-      min-height: 24px;
+      border: none;
       font-weight: 600;
-      user-select: text;
-    }
-
-    #successMsg {
-      color: #00f7ff;
-      text-align: center;
-      margin-top: 12px;
-      min-height: 24px;
-      font-weight: 600;
-      user-select: text;
-    }
-
-    /* Toggle container for fun */
-    .toggle {
-      position: absolute;
-      top: 20px;
-      right: -70px;
-      width: 60px;
-      height: 120px;
-      background: #191919;
-      border-radius: 10px;
-      z-index: 5;
-    }
-
-    .toggle::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 10px;
-      height: 80%;
-      background: #000;
-    }
-
-    .toggle::after {
-      content: '';
-      position: absolute;
-      top: 5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 45px;
-      height: 45px;
-      background: #333;
-      border: 2px solid #191919;
-      border-radius: 10px;
+      border-radius: 5px;
       cursor: pointer;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      transition: 0.5s ease;
+      transition: 0.3s ease;
     }
 
-    .input-check:checked ~ .toggle::after {
-      top: 65px;
+    button:hover {
+      background: #00b3cc;
     }
 
-    .input-check {
-      position: absolute;
-      right: -70px;
-      z-index: 10;
-      opacity: 0;
+    .popup {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 600;
+      color: #f33;
     }
 
-    .toggle .text {
-      position: absolute;
-      top: 17px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #fff;
-      font-size: 1em;
-      z-index: 1;
-      text-transform: uppercase;
-      pointer-events: none;
-      transition: 0.5s ease;
-      user-select: none;
-    }
-
-    .toggle .text.off {
-      opacity: 1;
-    }
-
-    .input-check:checked ~ .toggle .text.off {
-      top: 76px;
-      opacity: 0;
-    }
-
-    .toggle .text.on {
-      opacity: 0;
-    }
-
-    .input-check:checked ~ .toggle .text.on {
-      top: 76px;
-      opacity: 1;
-      color: #00f7ff;
-      text-shadow: 0 0 15px #00f7ff, 0 0 30px #00f7ff, 0 0 45px #00f7ff,
-        0 0 60px #00f7ff;
+    .popup.success {
+      color: #0f0;
     }
   </style>
 </head>
 <body>
-
-  <div class="login-light"></div>
-  <div class="login-box">
-    <input type="checkbox" class="input-check" id="input-check" />
-    <label for="input-check" class="toggle">
-      <span class="text off">off</span>
-      <span class="text on">on</span>
-    </label>
-
+  <div class="form-box">
     <h2>Register</h2>
-    <form id="registerForm" autocomplete="off" spellcheck="false" novalidate>
+    <form id="registerForm">
       <div class="input-box">
-        <span class="icon" aria-hidden="true">📧</span>
-        <input type="email" id="email" required />
-        <label for="email">Enter your valid email</label>
-        <div class="input-line"></div>
+        <input type="email" id="email" required>
+        <label>Email</label>
       </div>
-
       <div class="input-box">
-        <span class="icon" aria-hidden="true">👤</span>
-        <input type="text" id="username" required />
-        <label for="username">Enter your username (First letter uppercase)</label>
-        <div class="input-line"></div>
+        <input type="text" id="username" required>
+        <label>Username</label>
       </div>
-
       <div class="input-box">
-        <span class="icon" aria-hidden="true">🔒</span>
-        <input type="password" id="password" required />
-        <label for="password">Enter your password (min 6 chars)</label>
-        <div class="input-line"></div>
-        <div class="strength-bar" aria-label="password strength">
-          <div id="strengthFill"></div>
-        </div>
+        <input type="password" id="password" required>
+        <label>Password</label>
+        <div class="strength-bar"><div id="strength"></div></div>
       </div>
-
       <div class="input-box">
-        <span class="icon" aria-hidden="true">🔒</span>
-        <input type="password" id="confirmPassword" required />
-        <label for="confirmPassword">Confirm your password</label>
-        <div class="input-line"></div>
+        <input type="password" id="confirmPassword" required>
+        <label>Confirm Password</label>
       </div>
-
-      <button type="submit" aria-live="polite" aria-busy="false">
-        <div class="loading-spinner" aria-hidden="true"></div>
-        <span>Register</span>
-      </button>
-
-      <p id="errorMsg" role="alert" aria-live="assertive"></p>
-      <p id="successMsg" role="alert" aria-live="polite"></p>
+      <button type="submit">Register</button>
+      <div class="popup" id="popup"></div>
     </form>
   </div>
 
   <script>
     const form = document.getElementById('registerForm');
-    const errorMsg = document.getElementById('errorMsg');
-    const successMsg = document.getElementById('successMsg');
-    const passwordInput = document.getElementById('password');
-    const strengthFill = document.getElementById('strengthFill');
-    const button = form.querySelector('button');
+    const strengthBar = document.getElementById('strength');
+    const popup = document.getElementById('popup');
 
-    function calcStrength(pass) {
-      let strength = 0;
-      if (pass.length >= 6) strength++;
-      if (/[A-Z]/.test(pass)) strength++;
-      if (/[0-9]/.test(pass)) strength++;
-      if (/[^A-Za-z0-9]/.test(pass)) strength++;
-      return strength;
-    }
+    document.getElementById('password').addEventListener('input', e => {
+      const val = e.target.value;
+      let level = 0;
+      if (val.length >= 6) level++;
+      if (/[0-9]/.test(val) && /[A-Za-z]/.test(val)) level++;
+      if (/[^A-Za-z0-9]/.test(val)) level++;
 
-    function updateStrengthBar() {
-      const pass = passwordInput.value;
-      const strength = calcStrength(pass);
-      const percent = (strength / 4) * 100;
-      strengthFill.style.width = percent + '%';
-
-      if (strength <= 1) strengthFill.style.backgroundColor = '#ff4d4d'; // red
-      else if (strength === 2) strengthFill.style.backgroundColor = '#ffa500'; // orange
-      else if (strength === 3) strengthFill.style.backgroundColor = '#9acd32'; // yellowgreen
-      else strengthFill.style.backgroundColor = '#00f7ff'; // cyan
-    }
-
-    passwordInput.addEventListener('input', () => {
-      updateStrengthBar();
-      clearMessages();
+      const width = ["0%", "33%", "66%", "100%"][level];
+      const colors = ["red", "orange", "yellowgreen", "#00f7ff"];
+      strengthBar.style.width = width;
+      strengthBar.style.background = colors[level];
     });
 
-    function clearMessages() {
-      errorMsg.textContent = '';
-      successMsg.textContent = '';
-    }
-
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', async e => {
       e.preventDefault();
-      clearMessages();
-
-      button.disabled = true;
-      button.classList.add('loading');
-      button.setAttribute('aria-busy', 'true');
+      popup.textContent = "";
+      popup.classList.remove('success');
 
       const email = document.getElementById('email').value.trim();
-      const user = document.getElementById('username').value.trim();
-      const pass = passwordInput.value;
-      const confirmPass = document.getElementById('confirmPassword').value;
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirmPassword').value;
 
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        showError('Invalid email format.');
-        finishLoading();
+      if (!email.includes('@')) {
+        popup.textContent = "Please enter a valid email.";
         return;
       }
-
-      if (!/^[A-Z][a-zA-Z0-9]*$/.test(user)) {
-        showError(
-          'Username must start with uppercase letter and contain no . , / characters.'
-        );
-        finishLoading();
+      if (/[.,\/]/.test(username)) {
+        popup.textContent = "Username cannot contain . , or / characters.";
         return;
       }
-      if (/[.,\/]/.test(user)) {
-        showError('Username cannot contain ".", "," or "/".');
-        finishLoading();
+      if (password.length < 6) {
+        popup.textContent = "Password must be at least 6 characters.";
         return;
       }
-
-      if (pass.length < 6) {
-        showError('Password must be at least 6 characters.');
-        finishLoading();
-        return;
-      }
-
-      if (pass !== confirmPass) {
-        showError('Passwords do not match.');
-        finishLoading();
-        return;
-      }
-
-      if (calcStrength(pass) < 2) {
-        showError('Password is too weak.');
-        finishLoading();
+      if (password !== confirm) {
+        popup.textContent = "Passwords do not match.";
         return;
       }
 
@@ -478,33 +190,22 @@
         const res = await fetch('/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, username: user, password: pass }),
+          body: JSON.stringify({ email, username, password })
         });
 
+        const msg = await res.text();
         if (res.ok) {
-          successMsg.textContent = 'User registered successfully!';
+          popup.textContent = "Registration successful!";
+          popup.classList.add('success');
           form.reset();
-          strengthFill.style.width = '0%';
+          strengthBar.style.width = '0%';
         } else {
-          const msg = await res.text();
-          showError(msg || 'Registration failed.');
+          popup.textContent = msg;
         }
       } catch (err) {
-        showError('Server error. Please try again later.');
+        popup.textContent = "Server error.";
       }
-
-      finishLoading();
     });
-
-    function showError(msg) {
-      errorMsg.textContent = msg;
-      successMsg.textContent = '';
-    }
-    function finishLoading() {
-      button.disabled = false;
-      button.classList.remove('loading');
-      button.setAttribute('aria-busy', 'false');
-    }
   </script>
 </body>
 </html>
