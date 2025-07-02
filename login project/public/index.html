@@ -1,68 +1,310 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Register</title>
   <style>
-    body { font-family: Arial; padding: 40px; background: #f4f4f4; }
-    form { background: white; padding: 20px; border-radius: 10px; width: 300px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
-    input { width: 100%; padding: 10px; margin: 10px 0; }
-    button { padding: 10px; width: 100%; background: #28a745; color: white; border: none; border-radius: 5px; }
-    .error { color: red; text-align: center; }
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+    /* Background and fonts */
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #000;
+      font-family: 'Roboto Mono', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: #eee;
+      user-select: none;
+    }
+
+    /* Rail animation */
+    .rail {
+      position: fixed;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #444 25%, #fff 50%, #444 75%);
+      background-size: 200% 100%;
+      animation: slide 3s linear infinite;
+      transform: translateY(-50%);
+      z-index: 0;
+      opacity: 0.15;
+      border-radius: 2px;
+    }
+    @keyframes slide {
+      0% { background-position: 200% 0; }
+      100% { background-position: 0 0; }
+    }
+
+    /* Form container */
+    form {
+      background: #111;
+      padding: 40px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 40px #0ff9ff66;
+      width: 350px;
+      z-index: 1;
+      position: relative;
+    }
+
+    form h2 {
+      margin: 0 0 30px;
+      font-weight: 700;
+      font-size: 1.8rem;
+      text-align: center;
+      color: #0ff9ff;
+      letter-spacing: 2px;
+      user-select: text;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 12px 0;
+      border-radius: 6px;
+      border: 2px solid #333;
+      background: #222;
+      color: #eee;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+    input:focus {
+      border-color: #0ff9ff;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 14px;
+      background: #0ff9ff;
+      border: none;
+      border-radius: 6px;
+      font-weight: 700;
+      color: #000;
+      font-size: 1.2rem;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+    button:disabled {
+      background: #066;
+      cursor: not-allowed;
+    }
+
+    /* Loading effect on button */
+    .loading-spinner {
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid #000;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      animation: spin 1s linear infinite;
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      transform: translateY(-50%);
+      display: none;
+    }
+    button.loading .loading-spinner {
+      display: block;
+    }
+    button.loading span {
+      margin-left: 30px;
+    }
+    @keyframes spin {
+      0% {transform: rotate(0deg);}
+      100% {transform: rotate(360deg);}
+    }
+
+    /* Password strength bar */
+    .strength-bar {
+      height: 10px;
+      width: 100%;
+      background: #222;
+      border-radius: 6px;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+    .strength-bar > div {
+      height: 100%;
+      width: 0%;
+      background: red;
+      border-radius: 6px;
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+
+    /* Messages */
+    #errorMsg {
+      color: #ff5555;
+      text-align: center;
+      margin-top: 12px;
+      min-height: 20px;
+      user-select: text;
+    }
+    #successMsg {
+      color: #0ff9ff;
+      text-align: center;
+      margin-top: 12px;
+      min-height: 20px;
+      user-select: text;
+    }
   </style>
 </head>
 <body>
 
-<h2 style="text-align:center;">Register</h2>
-<form id="registerForm">
-  <input type="email" id="email" placeholder="Enter your valid email" required />
-  <input type="text" id="username" placeholder="Enter your username" required />
-  <input type="password" id="password" placeholder="Enter your password" required />
-  <input type="password" id="confirmPassword" placeholder="Confirm your password" required />
-  <button type="submit">Register</button>
-  <p class="error" id="errorMsg"></p>
-</form>
+  <div class="rail"></div>
 
-<script>
-const form = document.getElementById('registerForm');
-const errorMsg = document.getElementById('errorMsg');
+  <form id="registerForm" autocomplete="off" spellcheck="false">
+    <h2>Register</h2>
+    <input type="email" id="email" placeholder="Enter your valid email" required autocomplete="off" />
+    <input type="text" id="username" placeholder="Enter your username (First letter uppercase)" required autocomplete="off" />
+    
+    <input type="password" id="password" placeholder="Enter your password (min 6 chars)" required autocomplete="new-password" />
+    <div class="strength-bar" aria-label="password strength">
+      <div id="strengthFill"></div>
+    </div>
+    
+    <input type="password" id="confirmPassword" placeholder="Confirm your password" required autocomplete="new-password" />
+    
+    <button type="submit"><div class="loading-spinner"></div><span>Register</span></button>
+    
+    <p id="errorMsg"></p>
+    <p id="successMsg"></p>
+  </form>
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
+  <script>
+    const form = document.getElementById('registerForm');
+    const errorMsg = document.getElementById('errorMsg');
+    const successMsg = document.getElementById('successMsg');
+    const passwordInput = document.getElementById('password');
+    const strengthFill = document.getElementById('strengthFill');
+    const button = form.querySelector('button');
 
-  const email = document.getElementById('email').value.trim();
-  const user = document.getElementById('username').value.trim();
-  const pass = document.getElementById('password').value;
-  const confirmPass = document.getElementById('confirmPassword').value;
+    // Password strength levels (0-4)
+    function calcStrength(pass) {
+      let strength = 0;
+      if (pass.length >= 6) strength++;
+      if (/[A-Z]/.test(pass)) strength++;
+      if (/[0-9]/.test(pass)) strength++;
+      if (/[^A-Za-z0-9]/.test(pass)) strength++;
+      return strength;
+    }
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError("Invalid email format.");
-  if (pass !== confirmPass) return showError("Passwords do not match.");
+    function updateStrengthBar() {
+      const pass = passwordInput.value;
+      const strength = calcStrength(pass);
+      const percent = (strength / 4) * 100;
+      strengthFill.style.width = percent + '%';
 
-  try {
-    const res = await fetch("/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: email, username: user, password: pass })
+      // Color by strength
+      if (strength <= 1) strengthFill.style.backgroundColor = 'red';
+      else if (strength === 2) strengthFill.style.backgroundColor = 'orange';
+      else if (strength === 3) strengthFill.style.backgroundColor = 'yellowgreen';
+      else strengthFill.style.backgroundColor = '#0ff9ff';
+    }
+
+    passwordInput.addEventListener('input', () => {
+      updateStrengthBar();
+      clearMessages();
     });
 
-    if (res.ok) {
-      alert("User registered successfully!");
-      form.reset();
-      errorMsg.textContent = "";
-    } else {
-      const msg = await res.text();
-      showError(msg);
+    function clearMessages() {
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
     }
-  } catch (err) {
-    console.error(err);
-    showError("Server error.");
-  }
-});
 
-function showError(msg) {
-  errorMsg.textContent = msg;
-}
-</script>
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearMessages();
+
+      // Disable button and show loading
+      button.disabled = true;
+      button.classList.add('loading');
+
+      const email = document.getElementById('email').value.trim();
+      const user = document.getElementById('username').value.trim();
+      const pass = passwordInput.value;
+      const confirmPass = document.getElementById('confirmPassword').value;
+
+      // Email validation regex
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showError('Invalid email format.');
+        finishLoading();
+        return;
+      }
+
+      // Username restrictions
+      if (!/^[A-Z][a-zA-Z0-9]*$/.test(user)) {
+        showError('Username must start with uppercase letter and contain no . , / characters.');
+        finishLoading();
+        return;
+      }
+      if (/[.,\/]/.test(user)) {
+        showError('Username cannot contain ".", "," or "/".');
+        finishLoading();
+        return;
+      }
+
+      // Password length
+      if (pass.length < 6) {
+        showError('Password must be at least 6 characters.');
+        finishLoading();
+        return;
+      }
+
+      // Passwords match
+      if (pass !== confirmPass) {
+        showError('Passwords do not match.');
+        finishLoading();
+        return;
+      }
+
+      // Password strength minimal check (at least 2 points)
+      if (calcStrength(pass) < 2) {
+        showError('Password is too weak.');
+        finishLoading();
+        return;
+      }
+
+      // Send register request
+      try {
+        const res = await fetch('/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, username: user, password: pass }),
+        });
+
+        if (res.ok) {
+          successMsg.textContent = 'User registered successfully!';
+          form.reset();
+          strengthFill.style.width = '0%';
+        } else {
+          const msg = await res.text();
+          showError(msg || 'Registration failed.');
+        }
+      } catch (err) {
+        showError('Server error. Please try again later.');
+      }
+
+      finishLoading();
+    });
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      successMsg.textContent = '';
+    }
+    function finishLoading() {
+      button.disabled = false;
+      button.classList.remove('loading');
+    }
+  </script>
 </body>
 </html>
