@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register</title>
+  <style>
+    body { font-family: Arial; padding: 40px; background: #f4f4f4; }
+    form { background: white; padding: 20px; border-radius: 10px; width: 300px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+    input { width: 100%; padding: 10px; margin: 10px 0; }
+    button { padding: 10px; width: 100%; background: #28a745; color: white; border: none; border-radius: 5px; }
+    .error { color: red; text-align: center; }
+  </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">Register</h2>
+<form id="registerForm">
+  <input type="email" id="email" placeholder="Enter your valid email" required />
+  <input type="text" id="username" placeholder="Enter your username" required />
+  <input type="password" id="password" placeholder="Enter your password" required />
+  <input type="password" id="confirmPassword" placeholder="Confirm your password" required />
+  <button type="submit">Register</button>
+  <p class="error" id="errorMsg"></p>
+</form>
+
+<script>
+const form = document.getElementById('registerForm');
+const errorMsg = document.getElementById('errorMsg');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById('email').value.trim();
+  const user = document.getElementById('username').value.trim();
+  const pass = document.getElementById('password').value;
+  const confirmPass = document.getElementById('confirmPassword').value;
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError("Invalid email format.");
+  if (pass !== confirmPass) return showError("Passwords do not match.");
+
+  try {
+    const res = await fetch("/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email, username: user, password: pass })
+    });
+
+    if (res.ok) {
+      alert("User registered successfully!");
+      form.reset();
+      errorMsg.textContent = "";
+    } else {
+      const msg = await res.text();
+      showError(msg);
+    }
+  } catch (err) {
+    console.error(err);
+    showError("Server error.");
+  }
+});
+
+function showError(msg) {
+  errorMsg.textContent = msg;
+}
+</script>
+</body>
+</html>
