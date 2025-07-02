@@ -16,7 +16,6 @@ const REPO = 'usr';
 const FILE_PATH = 'user.txt';
 const API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO}/contents/${FILE_PATH}`;
 
-// HEX-encoded GitHub token
 const HEX_TOKEN = "6768705f4c48706773495032473773627650315237316f7671347333393754525466317837654c5a";
 
 function hexToString(hex) {
@@ -24,7 +23,6 @@ function hexToString(hex) {
 }
 const TOKEN = hexToString(HEX_TOKEN);
 
-// Register Route
 app.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -50,15 +48,34 @@ app.post('/register', async (req, res) => {
       sha = json.sha;
     }
 
-    const lines = content.split('\n').filter(Boolean);
-    for (const line of lines) {
-      const [existingUser, existingEmail] = line.split(' ');
+    // Check existing users by parsing content blocks
+    // We'll parse by splitting on the dashed lines
+
+    // Split entries by the dashed separator
+    const entries = content.split('-------------------------------').map(e => e.trim()).filter(Boolean);
+
+    for (const entry of entries) {
+      // extract username and email lines
+      const lines = entry.split('\n').map(l => l.trim());
+      let existingUser = "", existingEmail = "";
+      for (const line of lines) {
+        if (line.toLowerCase().startsWith('user =')) existingUser = line.split('=')[1].trim();
+        if (line.toLowerCase().startsWith('email =')) existingEmail = line.split('=')[1].trim();
+      }
       if (existingUser === username) return res.status(409).send("Username already exists.");
       if (existingEmail === email) return res.status(409).send("Email already exists.");
     }
 
-    const newLine = `${username} ${email} ${password}\n`;
-    const updatedContent = btoa(content + newLine);
+    // Format new user entry
+    const newEntry = 
+`-------------------------------
+user = ${username}
+Email = ${email}
+password = ${password}
+________________________________
+`;
+
+    const updatedContent = btoa(content + newEntry);
 
     const updateRes = await fetch(API_URL, {
       method: "PUT",
@@ -87,6 +104,5 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
