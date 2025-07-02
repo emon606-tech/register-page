@@ -5,110 +5,155 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Register</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-    /* Background and fonts */
-    body {
-      margin: 0;
-      height: 100vh;
-      background: #000;
-      font-family: 'Roboto Mono', monospace;
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0; padding: 0;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
       color: #eee;
       user-select: none;
     }
 
-    /* Rail animation */
-    .rail {
-      position: fixed;
-      top: 50%;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, #444 25%, #fff 50%, #444 75%);
-      background-size: 200% 100%;
-      animation: slide 3s linear infinite;
-      transform: translateY(-50%);
-      z-index: 0;
-      opacity: 0.15;
-      border-radius: 2px;
-    }
-    @keyframes slide {
-      0% { background-position: 200% 0; }
-      100% { background-position: 0 0; }
+    /* Container with glassmorphism */
+    .container {
+      background: rgba(255 255 255 / 0.05);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255 255 255 / 0.18);
+      padding: 40px 35px;
+      width: 380px;
+      max-width: 90vw;
+      animation: fadeIn 1s ease forwards;
     }
 
-    /* Form container */
-    form {
-      background: #111;
-      padding: 40px 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 40px #0ff9ff66;
-      width: 350px;
-      z-index: 1;
-      position: relative;
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
     }
 
-    form h2 {
-      margin: 0 0 30px;
-      font-weight: 700;
-      font-size: 1.8rem;
+    /* Title */
+    h2 {
+      font-weight: 600;
       text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.2rem;
+      letter-spacing: 1.2px;
       color: #0ff9ff;
-      letter-spacing: 2px;
+      text-shadow: 0 0 8px #0ff9ff88;
       user-select: text;
+    }
+
+    /* Floating label inputs */
+    .form-group {
+      position: relative;
+      margin-bottom: 25px;
     }
 
     input {
       width: 100%;
-      padding: 12px 15px;
-      margin: 12px 0;
-      border-radius: 6px;
-      border: 2px solid #333;
-      background: #222;
+      padding: 14px 14px 14px 14px;
+      border-radius: 8px;
+      border: 2px solid #444;
+      background: rgba(255 255 255 / 0.05);
       color: #eee;
       font-size: 1rem;
       outline: none;
       transition: border-color 0.3s ease;
     }
+
     input:focus {
       border-color: #0ff9ff;
+      box-shadow: 0 0 8px #0ff9ff88;
     }
 
-    button {
-      margin-top: 25px;
-      width: 100%;
-      padding: 14px;
-      background: #0ff9ff;
-      border: none;
-      border-radius: 6px;
-      font-weight: 700;
-      color: #000;
-      font-size: 1.2rem;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
+    label {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      color: #aaa;
+      pointer-events: none;
+      transform: translateY(-50%);
+      transition: 0.3s ease all;
+      font-size: 1rem;
       user-select: none;
     }
-    button:disabled {
-      background: #066;
-      cursor: not-allowed;
+
+    input:focus + label,
+    input:not(:placeholder-shown) + label {
+      top: 4px;
+      font-size: 0.75rem;
+      color: #0ff9ff;
+      user-select: text;
     }
 
-    /* Loading effect on button */
+    /* Password strength bar */
+    .strength-bar {
+      width: 100%;
+      height: 10px;
+      background: #222;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 6px;
+      box-shadow: inset 0 0 5px #000;
+    }
+    .strength-bar > div {
+      height: 100%;
+      width: 0%;
+      background: red;
+      border-radius: 6px;
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+
+    /* Button */
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #00fff7, #00c2f7);
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #111;
+      cursor: pointer;
+      box-shadow: 0 4px 15px #00c2f7aa;
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+    button:hover:not(:disabled) {
+      background: linear-gradient(135deg, #00c2f7, #00fff7);
+      box-shadow: 0 6px 20px #00fff7cc;
+    }
+    button:disabled {
+      cursor: not-allowed;
+      background: #0a1924;
+      box-shadow: none;
+      color: #555;
+    }
+
+    /* Loading spinner */
     .loading-spinner {
       border: 3px solid rgba(255, 255, 255, 0.3);
-      border-top: 3px solid #000;
+      border-top: 3px solid #00c2f7;
       border-radius: 50%;
       width: 18px;
       height: 18px;
       animation: spin 1s linear infinite;
       position: absolute;
       top: 50%;
-      left: 15px;
+      left: 18px;
       transform: translateY(-50%);
       display: none;
     }
@@ -123,188 +168,190 @@
       100% {transform: rotate(360deg);}
     }
 
-    /* Password strength bar */
-    .strength-bar {
-      height: 10px;
-      width: 100%;
-      background: #222;
-      border-radius: 6px;
-      margin-top: 5px;
-      overflow: hidden;
-    }
-    .strength-bar > div {
-      height: 100%;
-      width: 0%;
-      background: red;
-      border-radius: 6px;
-      transition: width 0.3s ease, background-color 0.3s ease;
-    }
-
     /* Messages */
     #errorMsg {
-      color: #ff5555;
+      color: #ff6b6b;
       text-align: center;
       margin-top: 12px;
-      min-height: 20px;
+      min-height: 24px;
+      font-weight: 600;
       user-select: text;
     }
     #successMsg {
-      color: #0ff9ff;
+      color: #00fff7;
       text-align: center;
       margin-top: 12px;
-      min-height: 20px;
+      min-height: 24px;
+      font-weight: 600;
       user-select: text;
+    }
+
+    /* Responsive */
+    @media (max-width: 400px) {
+      .container {
+        width: 90vw;
+        padding: 30px 20px;
+      }
     }
   </style>
 </head>
 <body>
-
-  <div class="rail"></div>
-
-  <form id="registerForm" autocomplete="off" spellcheck="false">
+  <div class="container" role="main" aria-label="Registration form">
     <h2>Register</h2>
-    <input type="email" id="email" placeholder="Enter your valid email" required autocomplete="off" />
-    <input type="text" id="username" placeholder="Enter your username (First letter uppercase)" required autocomplete="off" />
-    
-    <input type="password" id="password" placeholder="Enter your password (min 6 chars)" required autocomplete="new-password" />
-    <div class="strength-bar" aria-label="password strength">
-      <div id="strengthFill"></div>
-    </div>
-    
-    <input type="password" id="confirmPassword" placeholder="Confirm your password" required autocomplete="new-password" />
-    
-    <button type="submit"><div class="loading-spinner"></div><span>Register</span></button>
-    
-    <p id="errorMsg"></p>
-    <p id="successMsg"></p>
-  </form>
 
-  <script>
-    const form = document.getElementById('registerForm');
-    const errorMsg = document.getElementById('errorMsg');
-    const successMsg = document.getElementById('successMsg');
-    const passwordInput = document.getElementById('password');
-    const strengthFill = document.getElementById('strengthFill');
-    const button = form.querySelector('button');
+    <form id="registerForm" autocomplete="off" spellcheck="false" novalidate>
+      <div class="form-group">
+        <input type="email" id="email" placeholder=" " required />
+        <label for="email">Enter your valid email</label>
+      </div>
 
-    // Password strength levels (0-4)
-    function calcStrength(pass) {
-      let strength = 0;
-      if (pass.length >= 6) strength++;
-      if (/[A-Z]/.test(pass)) strength++;
-      if (/[0-9]/.test(pass)) strength++;
-      if (/[^A-Za-z0-9]/.test(pass)) strength++;
-      return strength;
-    }
+      <div class="form-group">
+        <input type="text" id="username" placeholder=" " required />
+        <label for="username">Enter your username (First letter uppercase)</label>
+      </div>
 
-    function updateStrengthBar() {
-      const pass = passwordInput.value;
-      const strength = calcStrength(pass);
-      const percent = (strength / 4) * 100;
-      strengthFill.style.width = percent + '%';
+      <div class="form-group">
+        <input type="password" id="password" placeholder=" " required />
+        <label for="password">Enter your password (min 6 chars)</label>
+        <div class="strength-bar" aria-label="password strength">
+          <div id="strengthFill"></div>
+        </div>
+      </div>
 
-      // Color by strength
-      if (strength <= 1) strengthFill.style.backgroundColor = 'red';
-      else if (strength === 2) strengthFill.style.backgroundColor = 'orange';
-      else if (strength === 3) strengthFill.style.backgroundColor = 'yellowgreen';
-      else strengthFill.style.backgroundColor = '#0ff9ff';
-    }
+      <div class="form-group">
+        <input type="password" id="confirmPassword" placeholder=" " required />
+        <label for="confirmPassword">Confirm your password</label>
+      </div>
 
-    passwordInput.addEventListener('input', () => {
-      updateStrengthBar();
-      clearMessages();
-    });
+      <button type="submit" aria-live="polite" aria-busy="false">
+        <div class="loading-spinner" aria-hidden="true"></div><span>Register</span>
+      </button>
 
-    function clearMessages() {
-      errorMsg.textContent = '';
-      successMsg.textContent = '';
-    }
+      <p id="errorMsg" role="alert" aria-live="assertive"></p>
+      <p id="successMsg" role="alert" aria-live="polite"></p>
+    </form>
+  </div>
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      clearMessages();
+<script>
+  const form = document.getElementById('registerForm');
+  const errorMsg = document.getElementById('errorMsg');
+  const successMsg = document.getElementById('successMsg');
+  const passwordInput = document.getElementById('password');
+  const strengthFill = document.getElementById('strengthFill');
+  const button = form.querySelector('button');
 
-      // Disable button and show loading
-      button.disabled = true;
-      button.classList.add('loading');
+  // Password strength calculation (0-4)
+  function calcStrength(pass) {
+    let strength = 0;
+    if (pass.length >= 6) strength++;
+    if (/[A-Z]/.test(pass)) strength++;
+    if (/[0-9]/.test(pass)) strength++;
+    if (/[^A-Za-z0-9]/.test(pass)) strength++;
+    return strength;
+  }
 
-      const email = document.getElementById('email').value.trim();
-      const user = document.getElementById('username').value.trim();
-      const pass = passwordInput.value;
-      const confirmPass = document.getElementById('confirmPassword').value;
+  function updateStrengthBar() {
+    const pass = passwordInput.value;
+    const strength = calcStrength(pass);
+    const percent = (strength / 4) * 100;
+    strengthFill.style.width = percent + '%';
 
-      // Email validation regex
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        showError('Invalid email format.');
-        finishLoading();
-        return;
-      }
+    if (strength <= 1) strengthFill.style.backgroundColor = '#ff4d4d'; // red
+    else if (strength === 2) strengthFill.style.backgroundColor = '#ffa500'; // orange
+    else if (strength === 3) strengthFill.style.backgroundColor = '#9acd32'; // yellowgreen
+    else strengthFill.style.backgroundColor = '#00fff7'; // cyan
+  }
 
-      // Username restrictions
-      if (!/^[A-Z][a-zA-Z0-9]*$/.test(user)) {
-        showError('Username must start with uppercase letter and contain no . , / characters.');
-        finishLoading();
-        return;
-      }
-      if (/[.,\/]/.test(user)) {
-        showError('Username cannot contain ".", "," or "/".');
-        finishLoading();
-        return;
-      }
+  passwordInput.addEventListener('input', () => {
+    updateStrengthBar();
+    clearMessages();
+  });
 
-      // Password length
-      if (pass.length < 6) {
-        showError('Password must be at least 6 characters.');
-        finishLoading();
-        return;
-      }
+  function clearMessages() {
+    errorMsg.textContent = '';
+    successMsg.textContent = '';
+  }
 
-      // Passwords match
-      if (pass !== confirmPass) {
-        showError('Passwords do not match.');
-        finishLoading();
-        return;
-      }
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearMessages();
 
-      // Password strength minimal check (at least 2 points)
-      if (calcStrength(pass) < 2) {
-        showError('Password is too weak.');
-        finishLoading();
-        return;
-      }
+    button.disabled = true;
+    button.classList.add('loading');
+    button.setAttribute('aria-busy', 'true');
 
-      // Send register request
-      try {
-        const res = await fetch('/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, username: user, password: pass }),
-        });
+    const email = document.getElementById('email').value.trim();
+    const user = document.getElementById('username').value.trim();
+    const pass = passwordInput.value;
+    const confirmPass = document.getElementById('confirmPassword').value;
 
-        if (res.ok) {
-          successMsg.textContent = 'User registered successfully!';
-          form.reset();
-          strengthFill.style.width = '0%';
-        } else {
-          const msg = await res.text();
-          showError(msg || 'Registration failed.');
-        }
-      } catch (err) {
-        showError('Server error. Please try again later.');
-      }
-
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showError('Invalid email format.');
       finishLoading();
-    });
+      return;
+    }
 
-    function showError(msg) {
-      errorMsg.textContent = msg;
-      successMsg.textContent = '';
+    if (!/^[A-Z][a-zA-Z0-9]*$/.test(user)) {
+      showError('Username must start with uppercase letter and contain no . , / characters.');
+      finishLoading();
+      return;
     }
-    function finishLoading() {
-      button.disabled = false;
-      button.classList.remove('loading');
+    if (/[.,\/]/.test(user)) {
+      showError('Username cannot contain ".", "," or "/".');
+      finishLoading();
+      return;
     }
-  </script>
+
+    if (pass.length < 6) {
+      showError('Password must be at least 6 characters.');
+      finishLoading();
+      return;
+    }
+
+    if (pass !== confirmPass) {
+      showError('Passwords do not match.');
+      finishLoading();
+      return;
+    }
+
+    if (calcStrength(pass) < 2) {
+      showError('Password is too weak.');
+      finishLoading();
+      return;
+    }
+
+    try {
+      const res = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, username: user, password: pass }),
+      });
+
+      if (res.ok) {
+        successMsg.textContent = 'User registered successfully!';
+        form.reset();
+        strengthFill.style.width = '0%';
+      } else {
+        const msg = await res.text();
+        showError(msg || 'Registration failed.');
+      }
+    } catch (err) {
+      showError('Server error. Please try again later.');
+    }
+
+    finishLoading();
+  });
+
+  function showError(msg) {
+    errorMsg.textContent = msg;
+    successMsg.textContent = '';
+  }
+  function finishLoading() {
+    button.disabled = false;
+    button.classList.remove('loading');
+    button.setAttribute('aria-busy', 'false');
+  }
+</script>
 </body>
 </html>
